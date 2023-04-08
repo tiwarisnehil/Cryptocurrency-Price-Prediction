@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartInsights</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='img/site.webmanifest') }}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&family=Montserrat:wght@100&family=Sacramento&display=swap" rel="stylesheet">
+</head>
+
+<body onload="onpageload()">
+    <nav class="background">
+
+        <h1>CRYPTOCURRENCY PRICE PREDICTION</h1>
+
+    </nav>
+    <section class="firstsection">
+
+        <div class="card">
+            <img src="{{ url_for('static', filename='img/bitcoinLogo.png') }}" alt="BITCOIN" style="width:100%">
+            <h1>BITCOIN</h1>
+            
+            <p class="price" id="bitINR"> </p>
+            
+            <p class="intro">Crypto currency with largest value and largest market cap. Also called 'digital gold' and 'cash of the internet'. </p>
+            <p><button onclick="bitGraph()">SHOW MARKET TREND</button></p>
+        </div>
+
+
+        <div class="card">
+            <img src="{{ url_for('static', filename='img/dogeLogo.png') }}" alt="DOGECOIN" style="width:100%">
+            <h1>DOGECOIN</h1>
+            <p class="price" id="dogeINR">DUMMY $19.99</p>
+            
+            <p class="intro">A meme based crypto currency started as a joke but now becoming a serious asset class as a lot of investment is going into it.</p>
+            <p><button onclick="dogeGraph()">SHOW MARKET TREND</button></p>
+        </div>
+
+
+        <div class="card">
+            <img src="{{ url_for('static', filename='img/etheriumLogo.png') }}" alt="ETHERIUM" style="width:100%">
+            <h1>ETHERIUM</h1>
+            <p class="price" id="etheriumINR">DUMMY $19.99</p>
+            
+            <p class="intro">Second largest crypto after bitcoin. Not focussed on digital currency but on decentralisation. Used to make smart contracts.</p>
+            <p><button onclick="etheriumGraph()">SHOW MARKET TREND</button></p>
+        </div>
+
+
+        <div class="card">
+            <img src="{{ url_for('static', filename='img/binanceLogo.png') }}" alt="BINANCE" style="width:100%">
+            <h1>BINANCE</h1>
+            <p class="price" id="binanceINR">DUMMY $19.99</p>
+            
+            <p class="intro">Binance coin is the crypto currency  of world's largest crypto ezchange - 'Binance'. It comes under the top coins to invest in.</p>
+            <p><button onclick="binanceGraph()">SHOW MARKET TREND</button></p>
+        </div>
+
+    </section>
+
+
+    <section id="graph">
+        <img id="bit_graph" src="{{ url_for('static', filename='img/BIT_COIN_GRAPH.png') }}" alt="">
+        <img id="doge_graph" src="{{ url_for('static', filename='img/DOGE_COIN_GRAPH.png') }}" alt="">
+        <img id="etherium_graph" src="{{ url_for('static', filename='img/ETH_COIN_GRAPH.png') }}" alt="">
+        <img id="binance_graph" src="{{ url_for('static', filename='img/BNB_COIN_GRAPH.png') }}" alt="">
+    </section>
+
+
+    {#<hr class="Thick-hr">#}
+
+    <hr>
+    <br>
+    <section id="allCoins">
+        <div>
+            <input type="text" name="coinCode" id="coinCode" placeholder="Cryptocurrency Code">
+        </div>
+        <div>
+            <button class="button" id="showprice" onclick="getrealtimepriceRS()">INR</button>
+            <button class="button" id="showpriceinusd" onclick="getrealtimepriceUSD()">USD</button>
+        </div>
+        <div id='realtimeprice'>
+            <h2></h2>
+        </div>
+    </section>
+    <hr >
+    {# <footer class="footer"> #}
+       {#  <h2 id="footer">DEVELOPERS</h2>#}
+   {# </footer> #}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+   {#<script src="{{ url_for('static', filename= 'logic/index.js') }}"></script>  #} 
+<script>
+let bit_graph = document.getElementById('bit_graph');
+let doge_graph = document.getElementById('doge_graph');
+let etherium_graph = document.getElementById('etherium_graph');
+let binance_graph = document.getElementById('binance_graph');
+
+bit_graph.style.display = `none`
+doge_graph.style.display = `none`
+etherium_graph.style.display = `none`
+binance_graph.style.display = `none`
+function bitGraph() {
+    if (bit_graph.style.display != `none`) {
+        let hide = confirm(`really want to hide bit Graph`)
+        bit_graph.style.display = `none`
+    }
+    else {
+        let hide = confirm(`Want to See bit Graph`)
+        bit_graph.style.display = `block`
+        doge_graph.style.display = `none`
+        etherium_graph.style.display = `none`
+        binance_graph.style.display = `none`
+    }
+}
+function dogeGraph() {
+    if (doge_graph.style.display != `none`) {
+        let hide = confirm(`really want to hide doge graph`)
+        doge_graph.style.display = `none`
+    }
+    else {
+        let hide = confirm(`Want to See doge graph`)
+        doge_graph.style.display = `block`
+        bit_graph.style.display = `none`
+        etherium_graph.style.display = `none`
+        binance_graph.style.display = `none`
+
+    }
+}
+function etheriumGraph() {
+    if (etherium_graph.style.display != `none`) {
+        let hide = confirm(`really want to hide etherium graph`)
+        etherium_graph.style.display = `none`
+    }
+    else {
+        let hide = confirm(`Want to See etherium graph`)
+        etherium_graph.style.display = `block`
+        bit_graph.style.display = `none`
+        doge_graph.style.display = `none`
+        binance_graph.style.display = `none`
+    }
+}
+function binanceGraph() {
+    if (binance_graph.style.display != `none`) {
+        let hide = confirm(`really want to hide binance graph`)
+        binance_graph.style.display = `none`
+    }
+    else {
+        let hide = confirm(`Want to See binance graph`)
+        binance_graph.style.display = `block`
+        bit_graph.style.display = `none`
+        etherium_graph.style.display = `none`
+        doge_graph.style.display = `none`
+    }
+}
+
+function getrealtimepriceRS() {
+    var code = document.getElementById("coinCode");
+    var price = document.getElementById("realtimeprice");
+    console.log(code.value)
+    var url = "http://127.0.0.1:5000/showprice";
+    $.post(url, {
+        coincode: code.value
+    }, function (data, status) {
+        console.log(data.rtprice);
+
+        price.innerHTML = "<h2>" + data.rtprice.toString() + " </h2>";
+        console.log(status);
+    });
+}
+ function getrealtimepriceUSD() {
+    var code = document.getElementById("coinCode");
+    var price = document.getElementById("realtimeprice");
+    console.log(code.value)
+    var url = "http://127.0.0.1:5000/realtimers";
+    $.post(url, {
+        coincode: code.value
+    }, function (data, status) {
+        price.innerHTML = "<h2>" + data.rtprice.toString() + " </h2>";
+    })
+    }
+function onpageload(){
+    var price=document.getElementById("bitINR");
+    var code="BTC";
+    var url = "http://127.0.0.1:5000/showprice";
+    $.post(url,{
+        coincode:code
+    },function(data,status){
+        price.innerHTML="<h4>" + data.rtprice.toString() + " </h4>";
+    })
+
+    var price2=document.getElementById("dogeINR");
+    var code2="DOGE";
+    var url = "http://127.0.0.1:5000/showprice";
+    $.post(url,{
+        coincode:code2
+    },function(data,status){
+        price2.innerHTML="<h4>" + data.rtprice.toString() + " </h4>";
+    })
+
+    var price3=document.getElementById("etheriumINR");
+    var code3="ETH";
+    var url = "http://127.0.0.1:5000/showprice";
+    $.post(url,{
+        coincode:code3
+    },function(data,status){
+        price3.innerHTML="<h4>" + data.rtprice.toString() + " </h4>";
+    })
+
+    var price4=document.getElementById("binanceINR");
+    var code4="BNB";
+    var url = "http://127.0.0.1:5000/showprice";
+    $.post(url,{
+        coincode:code4
+    },function(data,status){
+        price4.innerHTML="<h4>" + data.rtprice.toString() + " </h4>";
+    })
+
+}
+
+</script>
+
+</body>
+
+</html>
